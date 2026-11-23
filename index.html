@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>質性個案研究寫作產生器｜填入你的個案，產生整篇論文的寫法架構與範例</title>
+<title>質性個案研究第四章寫作產生器｜個案描述與分析的寫法、範例與檢查清單</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0;}
 body { font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
@@ -18,7 +18,7 @@ padding: 22px; margin-bottom: 18px;}
 border-bottom: 2px solid #1F3864; padding-bottom: 6px;}
 .card h3 { font-size: 20px; color: #1F3864; margin: 20px 0 8px;}
 label { display: block; font-weight: bold; margin: 12px 0 5px;}
-input[type=text], textarea, select {
+input[type=text], textarea {
 width: 100%; font-size: 17px; padding: 9px 10px; border: 1.5px solid #9db2cc;
 border-radius: 8px; font-family: inherit;}
 textarea { min-height: 74px;}
@@ -47,25 +47,25 @@ ul.check li { margin: 3px 0;}
 </head>
 <body>
 <header>
-<h1>質性個案研究寫作產生器</h1>
-<p>把你的個案資料填進來，五章的寫法架構、範例文字與檢查清單一次排好——先看懂每一節在寫什麼，再換成你的內容</p>
+<h1>質性個案研究第四章寫作產生器</h1>
+<p>專做第四章「個案描述與分析」：先把個案的故事講完整，再依研究問題一題一節分析——範例、證據放法與檢查清單一次排好</p>
 </header>
 <main>
 <div class="card noprint">
-<h2>① 填寫你的個案研究資料</h2>
-<p>下面先放了一個完整的示範個案（教學用），你可以先按「產生寫作架構」看它長什麼樣子，再把每一格換成你自己的個案。空格的寫法提示都寫在格子裡了。</p>
+<h2>① 填寫你的個案與第四章素材</h2>
+<p>下面先放了一個完整的示範個案（教學用），先按「產生第四章」看它長什麼樣子，再把每一格換成你自己的素材。「個案沿革」和「主要發現」是第四章的骨架：一行一筆，發現的順序請和研究問題對齊（第 1 個發現回答第 1 題，以此類推）。</p>
 <label>研究題目</label>
 <input type="text" id="f_title">
 <label>個案名稱（論文裡通常用代號，不要寫真名）</label>
 <input type="text" id="f_case">
-<label>個案簡介（一兩句話：做什麼的、成立多久、多大規模、有什麼特別）</label>
+<label>個案簡介（一兩句話：做什麼的、成立多久、多大規模、現況）</label>
 <textarea id="f_intro"></textarea>
-<label>為什麼選這個個案（它有什麼代表性，或有什麼值得學的地方）</label>
-<textarea id="f_why"></textarea>
-<label>研究目的（一句話：你想透過這個個案瞭解什麼）</label>
-<input type="text" id="f_purpose">
-<label>研究問題（一行一題）</label>
+<label>個案沿革（一行一筆，格式：年份｜發生什麼事）</label>
+<textarea id="f_timeline" style="min-height:120px"></textarea>
+<label>研究問題（一行一題，第四章會一題寫一節）</label>
 <textarea id="f_questions"></textarea>
+<label>主要發現（一行一筆，順序對應研究問題：一句話講完這個問題的答案）</label>
+<textarea id="f_findings" style="min-height:100px"></textarea>
 <label>訪談資料（訪談了誰、幾個人、每次多久）</label>
 <input type="text" id="f_interview">
 <label>文件資料（看了哪些文件）</label>
@@ -74,13 +74,13 @@ ul.check li { margin: 3px 0;}
 <input type="text" id="f_observe">
 <label>研究期間</label>
 <input type="text" id="f_period">
-<button onclick="generate()">產生寫作架構</button>
-<p class="hint">內容只在你自己的瀏覽器裡處理，不會上傳。產生的範例文字是「寫法示範」，請改寫成你自己的話，不要整段照抄交作業。</p>
+<button onclick="generate()">產生第四章</button>
+<p class="hint">內容只在你自己的瀏覽器裡處理，不會上傳。範例文字是「寫法示範」，請改寫成你自己的話，不要整段照抄交作業。</p>
 </div>
 
 <div id="results" style="display:none">
 <div class="card">
-<h2>② 你的寫作架構與範例</h2>
+<h2>② 你的第四章：架構與範例</h2>
 <button class="sub noprint" onclick="copyAll()">複製全部內容（純文字）</button>
 <button class="sub noprint" onclick="downloadWord()">下載 Word 檔</button>
 <div id="report"></div>
@@ -88,15 +88,17 @@ ul.check li { margin: 3px 0;}
 </div>
 
 <div class="card noprint">
-<h2>常見問題（白話版）</h2>
-<h3>個案研究和一般的訪談研究差在哪？</h3>
-<p>訪談研究是在問「一群人的經驗有什麼共同點」，主角是人；個案研究是在問「這一件事、這一個組織，到底是怎麼一回事」，主角是一個被框起來的個案（一個公司、一個學校、一個專案）。所以個案研究不能只靠訪談，還要看文件、看現場，幾個來源互相對照，講出來的故事才站得住。</p>
-<h3>只研究一個個案，夠嗎？</h3>
-<p>夠，個案研究的重點是「挖得深」，不是「數量多」。一個個案要選得有道理（有代表性、或很特別、或別人進不去只有你有門路），並且在第三章把選它的理由寫清楚。它的結論是讓讀者把道理用到自己的情境，不是像問卷那樣推論到全體。</p>
-<h3>受訪者的話要怎麼放進論文？</h3>
-<p>用代號，不要用真名：訪談對象編 P01、P02…，文件編 D01、D02…，觀察紀錄編 O01…。引文放進來之後，一定要接一句你自己的分析——「這段話顯示了……」——只貼引文不分析，是最常被老師退回的寫法。</p>
-<h3>什麼是三角驗證？</h3>
-<p>同一件事，至少用兩個不同來源對照：老闆說的、員工說的、文件寫的、你現場看到的，對得起來才敢寫進結論。就像查一個地址，你會同時看地圖、問路人、對門牌，三個都指同一間，才確定沒走錯。</p>
+<h2>第四章常見問題（白話版）</h2>
+<h3>第四章和第三章怎麼分工？</h3>
+<p>第三章講「你打算怎麼做」（方法），第四章講「你實際看到了什麼、你怎麼理解它」（結果與分析）。第四章不要再重講一次方法，頂多開頭一小段交代資料來源就好。</p>
+<h3>受訪者的話要放多少？怎麼放？</h3>
+<p>一個主張放一到兩句最有代表性的引文就夠，不要整段逐字稿貼上來。格式是：先講你的發現，再放引文（用 P01 這種代號，不要真名），引文後面一定要接你的分析句——「這段話顯示了……」。只貼引文、不分析，是第四章最常被退回的寫法。</p>
+<h3>訪談、文件、現場看到的講法不一致，怎麼辦？</h3>
+<p>照實寫，這反而是好材料。先把兩種講法都呈現出來，再分析為什麼會不一樣（角色不同、時間不同、立場不同），這種地方最能看出你的分析功力。硬把矛盾藏起來，口試委員一問就穿幫。</p>
+<h3>什麼是三角驗證？第四章要怎麼呈現？</h3>
+<p>同一件事，至少用兩個不同來源對照：老闆說的、員工說的、文件寫的、你現場看到的，對得起來才敢下結論。就像查一個地址，同時看地圖、問路人、對門牌，三個都指同一間才確定。第四章最後一節的「證據來源對照表」就是把這件事做給讀者看。</p>
+<h3>分析的節要怎麼分？</h3>
+<p>最穩的分法就是照研究問題分：一題一節，標題直接寫那一節的發現（例如「四之二 從試行到全面導入：三個階段的轉折」），不要只寫「分析（一）」。第五章下結論時，一題一題對回來，剛好接得上。</p>
 </div>
 </main>
 <script>
@@ -104,6 +106,8 @@ function escapeHtml(s) {
 return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 function val(id) { return document.getElementById(id).value.trim();}
+function lines(id) { return val(id).split('\n').map(function (s) { return s.trim();}).filter(Boolean);}
+var CN = ['一', '二', '三', '四', '五', '六', '七', '八'];
 
 var lastText = '';
 function generate() {
@@ -111,9 +115,9 @@ var d = {
 title: val('f_title') || '（尚未填研究題目）',
 caseName: val('f_case') || '本個案',
 intro: val('f_intro') || '（尚未填個案簡介）',
-why: val('f_why') || '（尚未填選案理由）',
-purpose: val('f_purpose') || '（尚未填研究目的）',
-questions: val('f_questions').split('\n').map(function (s) { return s.trim();}).filter(Boolean),
+timeline: lines('f_timeline'),
+questions: lines('f_questions'),
+findings: lines('f_findings'),
 interview: val('f_interview') || '（尚未填訪談資料）',
 docs: val('f_docs') || '（尚未填文件資料）',
 observe: val('f_observe') || '（尚未填觀察資料）',
@@ -135,7 +139,8 @@ items.map(function (x) { return '<li>' + x + '</li>';}).join('') + '</ul>');
 T.push('');
 items.forEach(function (x) { T.push('・' + x.replace(/<[^>]+>/g, ''));});
 }
-function table(headers, rows) {
+function table(capText, headers, rows) {
+if (capText) { H.push('<p style="font-weight:bold;margin-top:14px">' + capText + '</p>'); T.push(capText);}
 H.push('<div class="tblwrap"><table><thead><tr>' +
 headers.map(function (x) { return '<th>' + x + '</th>';}).join('') +
 '</tr></thead><tbody>' +
@@ -144,68 +149,65 @@ rows.map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + c +
 T.push(headers.join('\t'));
 rows.forEach(function (r) { T.push(r.map(function (c) { return c.replace(/<[^>]+>/g, '');}).join('\t'));});
 }
-var C = escapeHtml(d.caseName), Q = d.questions.map(escapeHtml);
+var C = escapeHtml(d.caseName);
+var secNo = 0;
+function secTitle(name) { secNo++; return '第' + CN[secNo - 1] + '節 ' + name;}
 
-H.push('<p><b>研究題目：' + escapeHtml(d.title) + '</b></p>');
-T.push('研究題目：' + d.title, '');
-table(['章', '這一章要回答的事', '主要內容'],
-[['第一章 緒論', '為什麼要研究這個個案？', '研究背景與動機、研究目的、研究問題'],
-['第二章 文獻探討', '別人已經知道什麼？還缺什麼？', '相關理論與研究、個案研究法文獻'],
-['第三章 研究方法', '你打算怎麼研究？為什麼可信？', '研究設計、個案選擇、資料蒐集、資料分析、研究品質與倫理'],
-['第四章 個案描述與分析', '這個個案到底發生了什麼事？', '個案背景、沿革時間軸、依研究問題逐節分析、證據對照'],
-['第五章 結論與建議', '所以呢？對別人有什麼用？', '結論（對回研究問題）、實務建議、研究限制、後續研究']]);
+H.push('<p><b>第四章 個案描述與分析</b>（研究題目：' + escapeHtml(d.title) + '）</p>');
+T.push('第四章 個案描述與分析', '研究題目：' + d.title, '');
+H.push('<div class="plain"><b>第四章在做什麼：</b>先把個案的故事講完整（第一節：背景與沿革），再照研究問題一題一節做分析（中間各節），最後用一張對照表把「問題—發現—證據」收尾。本章的每個主張都要有證據：訪談代號 P、文件代號 D、觀察代號 O。本研究的資料來源為：訪談——' +
+escapeHtml(d.interview) + '；文件——' + escapeHtml(d.docs) + '；觀察——' + escapeHtml(d.observe) + '；蒐集期間為' + escapeHtml(d.period) + '。</div>');
+T.push('先描述個案，再依研究問題逐節分析，最後以對照表收尾。資料來源：訪談——' + d.interview + '；文件——' + d.docs + '；觀察——' + d.observe + '；期間' + d.period + '。');
+table('', ['節', '標題（範例）', '這一節要做的事'],
+[[secTitle(''), '個案背景與發展歷程', '把個案的故事講完整：背景、沿革時間軸、現況'],
+].concat(d.questions.map(function (q, i) {
+return ['第' + CN[i + 1] + '節', '（請用你的發現當標題）', '回答研究問題' + CN[i] + '：' + escapeHtml(q)];
+})).concat([['第' + CN[d.questions.length + 1] + '節', '證據對照與本章彙整', '三角驗證對照表＋問題—發現—證據彙整表']]));
+secNo = 0;
 
-h3('第一章 緒論');
-plain('先把讀者帶進來：這個個案所在的產業或領域正在發生什麼事（背景），為什麼偏偏這個個案值得研究（動機），然後正式講出研究目的與研究問題。背景不要寫成產業百科全書，三到五段、最後一段一定要收回到你的個案身上。');
-demo(['近年來，' + '（產業或領域的變化，請換成你的個案情境）' + '，使得相關組織面臨新的挑戰與抉擇。在這樣的背景下，' + C + '的經驗格外值得關注。' + escapeHtml(d.intro),
-'本研究之目的在於：' + escapeHtml(d.purpose) + '。為達成上述目的，本研究提出下列研究問題：' +
-Q.map(function (q, i) { return '（' + (i + 1) + '）' + q;}).join('；') + '。']);
-check(['背景最後一段有沒有收回到個案本身？', '研究目的和研究問題是不是同一件事的兩種說法（目的一句話、問題條列）？', '研究問題有沒有多到收不了尾？個案研究通常 2–4 題就夠。']);
+/* 第一節 */
+h3(secTitle(' 個案背景與發展歷程'));
+plain('這一節只做一件事：讓沒聽過這個個案的讀者，在五到八頁內知道它是誰、從哪裡來、現在是什麼樣子。先寫背景與現況，再用時間軸把大事記排出來。先不要下評論、不要分析原因——那是後面各節的工作。');
+demo([escapeHtml(d.intro),
+C + '的發展歷程可分為幾個重要階段，整理如表4-1。從時間軸可以看出，（請填入你從時間軸看到的一個整體觀察，例如：個案的改變都集中在某個時期、或某件事是後面發展的起點）——這也是下一節分析的起點。']);
+var tlRows = d.timeline.map(function (line) {
+var parts = line.split('｜');
+if (parts.length < 2) parts = line.split('|');
+var y = (parts[0] || '').trim(), ev = parts.slice(1).join('｜').trim() || line;
+return [escapeHtml(y), escapeHtml(ev), '（填 D 或 P 代號）'];
+});
+if (!tlRows.length) tlRows = [['（年份）', '（事件）', '（來源代號）']];
+table('表4-1 ' + C + '重要沿革', ['時間', '重要事件', '資料來源'], tlRows);
+check(['一個完全不認識這個個案的人，讀完能講出它是做什麼的、現在多大、在哪裡嗎？', '時間軸的每一筆事件，都有資料來源可以查嗎？', '這一節有沒有忍住不分析？（原因和評價留到後面各節）']);
 
-h3('第二章 文獻探討');
-plain('這一章不是讀書心得，是在鋪路：把「看懂這個個案需要的概念」和「前人研究已經做到哪裡」交代清楚，最後指出還缺的那一塊，正好就是你的研究要補的。文獻要真的去找、真的讀過，不可以編造出處。');
-demo(['本章分為三個部分：第一部分說明與本研究主題相關的核心概念與理論（請依你的題目填入，例如：數位轉型、組織學習、家族企業接班）；第二部分回顧前人以個案方式探討類似議題的研究，比較其個案選擇與發現；第三部分介紹個案研究法的特性與適用時機，作為第三章研究設計的依據。',
-'個案研究法的主要參考文獻包括：Yin（2018）強調個案研究適合回答「如何」與「為何」的問題，並主張以多重證據來源相互驗證；Stake（1995）著重個案本身的理解與詮釋；Merriam（1998）則從教育與實務場域出發，說明個案的界定與資料分析方式。本研究綜合上述觀點，採取單一個案研究設計。']);
-check(['每一節文獻最後有沒有一句「這跟我的研究有什麼關係」？', '文獻有沒有新舊搭配（經典＋近五年）？', '所有引用的文獻，參考文獻表裡都有列、而且真的找得到？']);
+/* 逐題分析節 */
+d.questions.forEach(function (q, i) {
+var f = d.findings[i] || '（請在上方「主要發現」第 ' + (i + 1) + ' 行，填入這個問題的答案，一句話）';
+h3(secTitle(' ' + escapeHtml(f)));
+plain('這一節回答研究問題' + CN[i] + '：「' + escapeHtml(q) + '」。寫法固定三段：第一段先講發現（一句話講完，就是上面的節標題）；第二段拿證據出來——訪談引文一句到兩句、文件或觀察印證一句；第三段小結，講這件事背後的原因或意義。');
+demo(['就「' + escapeHtml(q) + '」而言，本研究發現：' + escapeHtml(f) + '。',
+'此一發現可由不同來源相互印證。受訪者 P01 表示：「（請放逐字稿原句，挑最有代表性的一句，不要整段貼）」。文件 D01 亦顯示，（請填入文件中的對應記載）。研究者在現場觀察時也注意到，（請填入觀察紀錄 O01 的對應現象）。三個來源的說法（一致／不完全一致；不一致時請照實寫，並分析原因）。',
+'綜合上述，本研究認為（請填入你的小結：為什麼會這樣、這代表什麼）。此一小結將在第五章與其他研究問題的結論一併討論。']);
+check(['第一段有沒有一句話就把發現講完？', '引文是不是只有一兩句、而且後面有你的分析句？', '至少兩個來源互相印證了嗎？講法不一致的地方有照實寫嗎？']);
+});
 
-h3('第三章 研究方法');
-plain('這一章是你的「施工說明書」：讀者看完要能判斷你做的每一步合不合理、結論可不可信。個案研究最重要的是三件事講清楚：為什麼選這個個案、資料從哪幾個來源來、你怎麼從一堆資料整理出結論。');
-demo(['本研究採質性研究之個案研究法。個案研究適合在真實情境中深入探討當代現象，尤其當研究問題著重於「如何」與「為何」、且現象與情境的界線不易劃分時（Yin, 2018）。本研究之目的在於' + escapeHtml(d.purpose) + '，符合上述特性，故採此設計。',
-'在個案選擇上，本研究以立意選樣選取' + C + '為研究個案。選取理由為：' + escapeHtml(d.why),
-'在資料蒐集上，本研究於' + escapeHtml(d.period) + '期間，透過三種來源蒐集資料並相互驗證：訪談方面，' + escapeHtml(d.interview) + '；文件方面，' + escapeHtml(d.docs) + '；觀察方面，' + escapeHtml(d.observe) + '。',
-'在資料分析上，本研究先將訪談逐字稿與各項資料反覆閱讀，標記與研究問題相關的片段（開放編碼），再將相近的片段歸成類別（主軸編碼），最後依研究問題組織成分析架構（選擇性編碼），並以個案的沿革時間軸輔助呈現事件的先後關係。',
-'在研究品質上，本研究以三角驗證（訪談、文件、觀察相互對照）、成員查證（將整理結果請受訪者確認）、厚描寫（詳細記錄情境脈絡）與同儕檢視（與指導者及同儕討論編碼結果）四種方式，提升研究的可信度。研究倫理方面，個案與受訪者皆以代號呈現，訪談前取得知情同意，資料僅供學術研究使用。']);
-table(['資料來源', '內容', '代號編法'],
-[['訪談', escapeHtml(d.interview), 'P01、P02、P03…'],
-['文件', escapeHtml(d.docs), 'D01、D02、D03…'],
-['觀察', escapeHtml(d.observe), 'O01、O02、O03…']]);
-check(['選案理由是「它有代表性／很特別／資料拿得到」這類學術理由，不是「剛好認識」？', '資料來源至少兩種以上，而且寫明怎麼互相對照？', '受訪者代號、知情同意、資料保存方式都有寫？']);
-
-h3('第四章 個案描述與分析');
-plain('這是全篇最厚的一章，分兩段走：先把個案的故事講完整（背景、沿革、現況），再依照第一章的研究問題，一題一節做分析。每一節的寫法都是同一個節奏：先講你的發現，再拿證據出來（引文、文件、觀察），最後一句話小結。只貼引文不分析，是這一章最常見的退件原因。');
-demo(['（個案背景）' + escapeHtml(d.intro) + '以下先以時間軸整理' + C + '的重要沿革，再依研究問題逐節分析。',
-'（分析段落範例，對應研究問題一）就「' + Q[0] + '」而言，本研究發現（請填入你的發現，一句話講完）。此一發現可由訪談與文件資料相互印證：受訪者 P01 表示：「（請放逐字稿原句，挑最有代表性的一句）」。文件 D01 亦顯示（請填入文件中的對應記載）。綜合上述證據可知，（請填入你的小結：這件事背後的原因或意義）。']);
-table(['時間', '重要事件', '資料來源'],
-[['（年份）', '（例：成立、擴廠、導入新系統、接班…請依你的個案填）', 'D01／P02'],
-['（年份）', '（事件）', 'P01／O01'],
-['（年份）', '（事件）', 'D03']]);
-check(['每個研究問題都有一節在回答它？', '每一個主張後面都有證據（引文或文件或觀察），而且有你自己的分析句？', '不同來源講法不一致的地方，有沒有照實寫出來並討論？（不一致不是壞事，是分析的好材料）']);
-
-h3('第五章 結論與建議');
-plain('結論不是把第四章再抄一次，是把研究問題一題一題拿回來，給出明確的答案。建議要從你的發現長出來，不能寫「政府應該重視、業者應該努力」這種跟個案無關的空話。最後誠實寫研究限制：一個個案的結論，本來就不能推到所有公司。');
-demo(['本研究以' + C + '為個案，探討' + escapeHtml(d.purpose) + '，主要結論如下：第一，針對研究問題一「' + Q[0] + '」，本研究發現（請填入結論）。' +
-(Q[1]? '第二，針對研究問題二「' + Q[1] + '」，本研究發現（請填入結論）。': '') +
-'上述結論顯示，' + C + '的經驗對同類型組織具有參考價值，尤其在（請填入最值得借鏡的一點）。',
-'本研究之限制在於僅探討單一個案，研究結論之適用範圍以脈絡相近的組織為限，不宜直接推論至所有產業；後續研究可採多重個案設計，比較不同規模或產業之個案，以增進結論的完整性。']);
-check(['結論有沒有一題一題對回研究問題？', '建議是不是從發現長出來的、而且講得出是給誰的建議？', '研究限制有沒有誠實寫（單一個案、研究者角色、資料取得範圍）？']);
-
-h3('參考文獻（本頁用到的個案研究法經典，皆為真實出版品）');
-demo(['Eisenhardt, K. M. (1989). Building theories from case study research. Academy of Management Review, 14(4), 532–550.',
-'Merriam, S. B. (1998). Qualitative research and case study applications in education. Jossey-Bass.',
-'Stake, R. E. (1995). The art of case study research. Sage.',
-'Yin, R. K. (2018). Case study research and applications: Design and methods (6th ed.). Sage.']);
-H.push('<p class="note">註：你自己研究主題的文獻，請到圖書館資料庫實際檢索後再加入；不要把沒看過的文獻放進參考文獻表。</p>');
-T.push('註：主題文獻請實際檢索後再加入，不要放沒看過的文獻。');
+/* 最後一節：對照與彙整 */
+h3(secTitle(' 證據對照與本章彙整'));
+plain('最後一節不寫新發現，做兩件收尾的事：第一，用三角驗證對照表證明你的每個發現都不只靠單一來源；第二，用彙整表把「研究問題—主要發現—證據來源」對齊，讓讀者（和口試委員）一眼看完第四章的全貌。');
+var triRows = d.questions.map(function (q, i) {
+var f = d.findings[i] || '（尚未填發現）';
+return [escapeHtml(f), 'P01、P03（填實際代號）', 'D01（填實際代號）', 'O01（填實際代號）', '（一致／部分一致）'];
+});
+table('表4-2 主要發現之證據來源對照（三角驗證）', ['主要發現', '訪談證據', '文件證據', '觀察證據', '對照結果'], triRows);
+var sumRows = d.questions.map(function (q, i) {
+var f = d.findings[i] || '（尚未填發現）';
+return ['研究問題' + CN[i] + '：' + escapeHtml(q), escapeHtml(f), '表4-2'];
+});
+table('表4-3 研究問題與主要發現彙整', ['研究問題', '主要發現', '證據對照'], sumRows);
+demo(['本章先描述' + C + '的背景與發展歷程，再依研究問題逐一分析。整體而言，' +
+d.questions.map(function (q, i) { return '研究問題' + CN[i] + '的發現為「' + escapeHtml(d.findings[i] || '（尚未填）') + '」';}).join('；') +
+'。上述發現皆經訪談、文件與觀察三種來源對照（表4-2），下一章將在此基礎上提出結論與建議。']);
+check(['每個發現都至少有兩個來源支持嗎？只有單一來源的發現，有標明並降低語氣嗎？', '彙整表的發現，和前面各節第一段的發現，文字有對齊嗎？', '這一節有沒有忍住不寫建議？（建議是第五章的事）']);
 
 document.getElementById('report').innerHTML = H.join('\n');
 lastText = T.join('\n');
@@ -219,12 +221,12 @@ else alert(lastText);
 }
 function downloadWord() {
 var html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">' +
-'<head><meta charset="utf-8"><title>質性個案研究寫作架構</title></head><body>' +
+'<head><meta charset="utf-8"><title>第四章 個案描述與分析</title></head><body>' +
 document.getElementById('report').innerHTML + '</body></html>';
 var blob = new Blob(['\ufeff' + html], { type: 'application/msword'});
 var a = document.createElement('a');
 a.href = URL.createObjectURL(blob);
-a.download = '質性個案研究寫作架構.doc';
+a.download = '第四章個案描述與分析.doc';
 document.body.appendChild(a); a.click();
 setTimeout(function () { URL.revokeObjectURL(a.href); a.remove();}, 500);
 }
@@ -233,10 +235,10 @@ setTimeout(function () { URL.revokeObjectURL(a.href); a.remove();}, 500);
 (function () {
 document.getElementById('f_title').value = '中小企業導入智慧製造之歷程與關鍵因素：以甲公司為例';
 document.getElementById('f_case').value = '甲公司';
-document.getElementById('f_intro').value = '甲公司位於台中市，1987 年成立，是一家員工約 120 人的金屬零件加工廠，主要客戶為自行車與汽機車零組件廠商，近年面臨缺工與客戶要求交期縮短的壓力。';
-document.getElementById('f_why').value = '甲公司是中部地區少數在五年內完成智慧製造導入、且願意開放研究的中小企業，其歷程對同規模的傳產工廠具有代表性與借鏡價值。';
-document.getElementById('f_purpose').value = '瞭解中小企業導入智慧製造的歷程、遭遇的困難與因應方式';
+document.getElementById('f_intro').value = '甲公司位於台中市，1987 年成立，是一家員工約 120 人的金屬零件加工廠，主要客戶為自行車與汽機車零組件廠商，近年面臨缺工與客戶要求交期縮短的壓力，2019 年起分階段導入智慧製造，目前已完成主要產線的數位化。';
+document.getElementById('f_timeline').value = '1987｜創辦人以 8 台傳統車床創立甲公司\n2003｜擴廠遷至現址，員工增至 60 人\n2015｜第二代接任總經理，開始評估產線數位化\n2019｜導入機聯網與生產看板（第一階段）\n2021｜疫情期間訂單波動，導入排程系統（第二階段）\n2023｜完成智慧產線建置，交期由 21 天縮短為 12 天（第三階段）\n2025｜獲經濟部中小企業數位轉型輔導案例肯定';
 document.getElementById('f_questions').value = '甲公司導入智慧製造的歷程可分為哪些階段？\n導入過程中遭遇哪些困難？公司如何因應？\n影響導入成敗的關鍵因素有哪些？';
+document.getElementById('f_findings').value = '導入歷程分為三個階段：先聯網看得見、再排程管得動、最後產線自己會回報\n最大的困難是資深員工的抗拒與舊資料不完整，公司以種子員工與分階段上線因應\n關鍵因素有三：負責人親自推動、政府補助降低初期成本、先讓員工嘗到甜頭再擴大';
 document.getElementById('f_interview').value = '深度訪談創辦人、廠長、資訊主管與 3 位資深員工，共 6 人，每人訪談 60–90 分鐘，全程錄音並整理為逐字稿';
 document.getElementById('f_docs').value = '公司簡介、導入計畫書、會議紀錄、政府補助申請文件與相關新聞報導，共 12 份';
 document.getElementById('f_observe').value = '研究者至廠區實地觀察 3 次，每次約 2 小時，記錄產線配置、看板使用與員工操作情形';
